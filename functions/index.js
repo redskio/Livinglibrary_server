@@ -18,6 +18,10 @@ exports.Pushtrigger = functions.database.ref('/messages/{messageId}').onWrite((e
         });
 
 console.log(msg + " " + sender + " " + receiver);
+
+admin.database().ref('users/'+sender).once('value').then((data) => {
+    sender = data.val().name;
+    console.log(sender);
 admin.database().ref('pushtokens/'+receiver).once('value').then((alltokens) => {
     var rawtokens = alltokens.val();
     console.log(rawtokens);
@@ -49,6 +53,7 @@ return admin.messaging().sendToDevice(tokens, payload).then((response) => {
 })
 })
 })
+})
 
 function processtokens(rawtokens) {
     var promise = new Promise((resolve, reject) => {
@@ -59,5 +64,11 @@ function processtokens(rawtokens) {
     resolve(processedtokens);
 })
     return promise;
+
+}
+
+function getUsername(uid) {
+    var username;
+    console.log(uid);
 
 }
