@@ -10,7 +10,6 @@ var sender;
 exports.Pushtrigger = functions.database.ref('/messages/{messageId}').onWrite((event) => {
         wrotedata = event.data.val();
 
-        console.log(wrotedata);
         event.data.forEach(function(data){
             sender = data.val().senderId;
             msg = data.val().text;
@@ -21,10 +20,8 @@ console.log(msg + " " + sender + " " + receiver);
 
 admin.database().ref('users/'+sender).once('value').then((data) => {
     sender = data.val().name;
-    console.log(sender);
 admin.database().ref('pushtokens/'+receiver).once('value').then((alltokens) => {
     var rawtokens = alltokens.val();
-    console.log(rawtokens);
 var tokens = [];
 processtokens(rawtokens).then((processedtokens) => {
 
@@ -64,11 +61,5 @@ function processtokens(rawtokens) {
     resolve(processedtokens);
 })
     return promise;
-
-}
-
-function getUsername(uid) {
-    var username;
-    console.log(uid);
 
 }
