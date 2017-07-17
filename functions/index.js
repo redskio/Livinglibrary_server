@@ -3,24 +3,24 @@ var admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 var wrotedata;
-var receiver;
+var receiver_key;
 var msg;
 var sender;
-
+var sender_key;
 exports.Pushtrigger = functions.database.ref('/messages/{messageId}').onWrite((event) => {
         wrotedata = event.data.val();
 
         event.data.forEach(function(data){
-            sender = data.val().senderId;
+            sender_key = data.val().senderId;
             msg = data.val().text;
-            receiver = data.val().receiverId;
+            receiver_key = data.val().receiverId;
         });
 
-console.log(msg + " " + sender + " " + receiver);
+console.log(msg + " " + sender_key + " " + receiver_key);
 
-admin.database().ref('users/'+sender).once('value').then((data) => {
+admin.database().ref('users/'+sender_key).once('value').then((data) =>  {
     sender = data.val().name;
-admin.database().ref('pushtokens/'+receiver).once('value').then((alltokens) => {
+admin.database().ref('pushtokens/'+receiver_key).once('value').then((alltokens) => {
     var rawtokens = alltokens.val();
 var tokens = [];
 processtokens(rawtokens).then((processedtokens) => {
@@ -34,10 +34,13 @@ var payload = {
     "notification":{
         "title":"From" + sender,
         "body":"Msg" + msg,
-        "sound":"default"
+        "sound":"default",
+        "click_action":"FCM_PLUGIN_ACTIVITY",
+        "icon":"fcm_push_icon"
     },
     "data":{
-        "sendername":sender,
+        "senderKey":sender_key,
+        "receiverKey":receiver_key,
         "message":msg
     }
 }
