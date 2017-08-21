@@ -36,6 +36,7 @@ var payload = {
         "title":"From" + sender,
         "body":"Msg" + msg,
         "sound":"default",
+        "badge":"1",
         "click_action":"FCM_PLUGIN_ACTIVITY",
         "icon":"fcm_push_icon"
     },
@@ -86,6 +87,7 @@ var payload = {
     "notification":{
         "title":"From" + sender+"님이 제품을 구매하였습니다.",
         "body":"구매제품 : " + item,
+        "badge":"1",
         "sound":"default",
         "click_action":"FCM_PLUGIN_ACTIVITY",
         "icon":"fcm_push_icon"
