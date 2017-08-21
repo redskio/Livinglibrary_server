@@ -36,7 +36,7 @@ var payload = {
         "title":"From : " + sender,
         "body":"Msg" + msg,
         "sound":"default",
-        "badge":1,
+        "badge":"1",
         "click_action":"FCM_PLUGIN_ACTIVITY",
         "icon":"fcm_push_icon"
     },
